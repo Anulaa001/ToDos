@@ -1,20 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ToDos.Coverters"
              x:Class="ToDos.MainPage">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="+" Clicked="ToolbarAdd_Clicked" />
     </ContentPage.ToolbarItems>
-    
-    <StackLayout>
+
+    <ContentPage.Resources>
+        <local:DoubleToIntConverter x:Key="intConverter"/>
+    </ContentPage.Resources>
+
+    <StackLayout Margin="{StaticResource PageMargin}">
         <ListView x:Name="lvToDos" Margin="10" ItemsSource="{Binding}" ItemTapped="OnItemTapped">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Title}" Detail="{Binding Description}"/>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal">
+                            <Image Source="{Binding Image}" 
+                                   Aspect="AspectFill"
+                                   WidthRequest="{Binding Value, Source={x:Reference sliderZoom}, Converter={StaticResource intConverter},ConverterParameter=2}" 
+                                   HeightRequest="{Binding Value, Source={x:Reference sliderZoom}, Converter={StaticResource intConverter}, ConverterParameter=2}"/>
+                        <StackLayout Orientation="Vertical">
+                            <Label Text="{Binding Title}" TextColor="{StaticResource ListItemTitle}" 
+                                   FontSize="{Binding Value, Source={x:Reference sliderZoom}, Converter={StaticResource intConverter}, ConverterParameter=2}"/>
+                            <Label Text="{Binding Description}" 
+                                   FontSize="{Binding Value, Source={x:Reference sliderZoom}, Converter={StaticResource intConverter}}"/>
+                        </StackLayout>
+                        </StackLayout>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Slider x:Name="sliderZoom" Maximum="50" Minimum="10" Value="20"/>
     </StackLayout>
 
 </ContentPage>

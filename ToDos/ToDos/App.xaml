@@ -3,6 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ToDos.App">
     <Application.Resources>
+        <x:Int16 x:Key="PageMargin">15</x:Int16>
+        
+        <Color x:Key="ListItemTitle">#F08080</Color>
+        <Color x:Key="UWPBackground">#FFC0CB</Color>
+        <Color x:Key="AndroidBackground">#ADD8E6</Color>
 
+        <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
+            <Setter Property="BackgroundColor"
+                    Value="{OnPlatform UWP={StaticResource UWPBackground}, 
+                    Android={StaticResource AndroidBackground}}"/>
+        </Style>
     </Application.Resources>
 </Application>

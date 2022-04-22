@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using ToDos.Data;
 using Xamarin.Forms;
 
@@ -13,7 +14,16 @@ namespace ToDos
 
         protected async override void OnAppearing()
         {
-            BindingContext = await App.DB.getTodosAsync();
+            var toDos = await App.DB.getTodosAsync();
+
+            foreach (var toDo in toDos)
+            {
+                toDo.Image = Device.RuntimePlatform == Device.Android ?
+                    "xamarin.png" :
+                    Path.Combine("Assets", "xamarin.png");
+            }
+
+            BindingContext = toDos;
             base.OnAppearing();
         }
 
